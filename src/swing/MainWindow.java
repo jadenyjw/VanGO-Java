@@ -1,12 +1,13 @@
 package swing;
 
 import java.awt.EventQueue;
-
+import network.SocketSender;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -31,6 +32,8 @@ public class MainWindow {
 				}
 			}
 		});
+		
+		
 	}
 
 	/**
@@ -85,7 +88,11 @@ public class MainWindow {
 		});
 		btnNewButton.setBounds(810, 567, 188, 23);
 		frmVanGo.getContentPane().add(btnNewButton);
-		
+		boolean connected = false;
+		while (connected == false){
+			String ip = JOptionPane.showInputDialog(frmVanGo, "What's the IP of the Van Go bot?");
+		    
+		}
 		
 	}
 }
