@@ -16,4 +16,16 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.clarifai</groupId>
+  		<artifactId>clarifai-api-java</artifactId>
+  		<version>1.2.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>uk.co.caprica</groupId>
+  		<artifactId>vlcj</artifactId>
+  		<version>3.10.1</version>
+  	</dependency>
+  </dependencies>
 </project>

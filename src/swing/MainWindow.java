@@ -69,7 +69,7 @@ public class MainWindow {
 		lblMovementArrowKeys.setBounds(810, 36, 188, 14);
 		frmVanGo.getContentPane().add(lblMovementArrowKeys);
 		
-		JLabel lblCameraTiltOp = new JLabel("Camera Tilt: W/S");
+		JLabel lblCameraTiltOp = new JLabel("Camera Tilt: PgUp / PgDown");
 		lblCameraTiltOp.setBounds(810, 61, 188, 14);
 		frmVanGo.getContentPane().add(lblCameraTiltOp);
 		
