@@ -10,19 +10,17 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.border.BevelBorder;
 
 public class MainWindow {
 
 	private JFrame frmVanGo;
-
+    
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		System.out.print("test");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -32,35 +30,30 @@ public class MainWindow {
 					e.printStackTrace();
 				}
 			}
-			
 		});
 	}
-	public void keyPressed(KeyEvent e) {
-
-	    int key = e.getKeyCode();
-
-	    System.out.print(key);
-	}
-
-	
 
 	/**
 	 * Create the application.
 	 */
 	public MainWindow() {
 		initialize();
-		
 	}
-    
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmVanGo = new JFrame();
+		
 		frmVanGo.setTitle("Van Go");
 		frmVanGo.setBounds(100, 100, 1024, 640);
 		frmVanGo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmVanGo.getContentPane().setLayout(null);
+		frmVanGo.setVisible(true);
+		KeyListen newListener = new KeyListen(); 
+		frmVanGo.addKeyListener(newListener);
+		frmVanGo.setFocusable(true);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -76,14 +69,13 @@ public class MainWindow {
 		lblMovementArrowKeys.setBounds(810, 36, 188, 14);
 		frmVanGo.getContentPane().add(lblMovementArrowKeys);
 		
-		JLabel lblCameraTiltOp = new JLabel("Camera Tilt: O/P");
+		JLabel lblCameraTiltOp = new JLabel("Camera Tilt: W/S");
 		lblCameraTiltOp.setBounds(810, 61, 188, 14);
 		frmVanGo.getContentPane().add(lblCameraTiltOp);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(810, 86, 188, 470);
-		
 		frmVanGo.getContentPane().add(panel_1);
 		
 		JButton btnNewButton = new JButton("Identify Image");
@@ -93,5 +85,7 @@ public class MainWindow {
 		});
 		btnNewButton.setBounds(810, 567, 188, 23);
 		frmVanGo.getContentPane().add(btnNewButton);
+		
+		
 	}
 }
