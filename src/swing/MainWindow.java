@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.border.BevelBorder;
 
@@ -21,6 +22,7 @@ public class MainWindow {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		System.out.print("test");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -30,16 +32,26 @@ public class MainWindow {
 					e.printStackTrace();
 				}
 			}
+			
 		});
 	}
+	public void keyPressed(KeyEvent e) {
+
+	    int key = e.getKeyCode();
+
+	    System.out.print(key);
+	}
+
+	
 
 	/**
 	 * Create the application.
 	 */
 	public MainWindow() {
 		initialize();
+		
 	}
-
+    
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -71,6 +83,7 @@ public class MainWindow {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(810, 86, 188, 470);
+		
 		frmVanGo.getContentPane().add(panel_1);
 		
 		JButton btnNewButton = new JButton("Identify Image");
