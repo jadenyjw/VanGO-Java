@@ -1,6 +1,8 @@
 package swing;
 
 import java.awt.EventQueue;
+import java.awt.Graphics;
+
 import network.SocketSender;
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
@@ -37,7 +39,7 @@ public class MainWindow {
 
 	private JFrame frmVanGo;
 	private JPanel vidPanel;
-
+	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
 	
 	/**
 	 * Launch the application.
@@ -98,11 +100,11 @@ public class MainWindow {
 
 		JButton btnNewButton = new JButton("Identify Image");
 
-		DefaultListModel listModel;
-		listModel = new DefaultListModel();
+		DefaultListModel<String> listModel;
+		listModel = new DefaultListModel<String>();
 
 		JScrollPane scrollPane = new JScrollPane();
-		JList list = new JList(listModel);
+		JList<String> list = new JList<String>(listModel);
 
 		scrollPane.setViewportView(list);
 		scrollPane.setBounds(810, 86, 198, 480);
@@ -112,7 +114,7 @@ public class MainWindow {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				takeSnapShot(vidPanel);
+				takeSnapShot(mediaPlayerComponent);
 
 				ClarifaiClient clarifai = new ClarifaiClient("Wt6QO1me3Idz7ucdO3Dw_We4QTXWbvBzvWre6O_p",
 						"N5GD23xeygB98B7Dnpsq2qkXaP0fyZa2ruqU2lV5");
@@ -121,6 +123,7 @@ public class MainWindow {
 				for (Tag tag : results.get(0).getTags()) {
 					listModel.addElement(tag.getName());
 				}
+				
 			}
 		});
 		btnNewButton.setBounds(810, 577, 198, 23);
@@ -139,9 +142,9 @@ public class MainWindow {
 
 				SocketSender.establishConn(ip);
 				boolean found = new NativeDiscovery().discover();
-				EmbeddedMediaPlayerComponent mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+				mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 				vidPanel.add(mediaPlayerComponent);
-				mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/vango");
+				mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4");
 				
 				connSuccess = true;
 
@@ -154,25 +157,17 @@ public class MainWindow {
 
 	}
 
-	public static void initVLC(JPanel panel, String ip) {
 
-		
-
-	}
-
-	public static void takeSnapShot(JPanel panel) {
-
-		BufferedImage bufImage = new BufferedImage(panel.getSize().width, panel.getSize().height,
-				BufferedImage.TYPE_INT_RGB);
-		panel.paint(bufImage.createGraphics());
-		File imageFile = new File("clarifai.jpg");
+	public static void takeSnapShot(EmbeddedMediaPlayerComponent panel) {
 
 		try {
-			imageFile.createNewFile();
-			ImageIO.write(bufImage, "jpeg", imageFile);
+			File file = new File("clarifai.jpg");
+			panel.getMediaPlayer().saveSnapshot(file);
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		
 	}
 }
