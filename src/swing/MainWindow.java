@@ -6,6 +6,7 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
 import com.clarifai.api.ClarifaiClient;
@@ -63,7 +64,7 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frmVanGo = new JFrame();
-		
+		frmVanGo.setResizable(false);
 		frmVanGo.setTitle("Van Go");
 		frmVanGo.setBounds(100, 100, 1024, 640);
 		frmVanGo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,7 +97,11 @@ public class MainWindow {
 		DefaultListModel listModel;
 		listModel = new DefaultListModel();
 		
+		JScrollPane scrollPane = new JScrollPane();
+		
 		JList list = new JList(listModel);
+		
+		scrollPane.setViewportView(list);
 		list.setBounds(810, 86, 188, 470);
 		frmVanGo.getContentPane().add(list);
 		
@@ -111,7 +116,7 @@ public class MainWindow {
 				List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(new File("clarifai.jpg")));
 				listModel.clear();
 				for (Tag tag : results.get(0).getTags()) {
-				  listModel.addElement(tag.getName() + ": " + tag.getProbability());
+				  listModel.addElement(tag.getName();
 				}
 			}
 		});

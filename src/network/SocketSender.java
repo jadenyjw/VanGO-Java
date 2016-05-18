@@ -22,10 +22,6 @@ public static DataOutputStream dout;
 	
 	}
 	
-	public static void closeConn() throws IOException{
-		soc.close();
-	}
-		
 }
 
 
