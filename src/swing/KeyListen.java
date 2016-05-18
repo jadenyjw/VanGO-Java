@@ -61,13 +61,13 @@ public class KeyListen implements KeyListener{
 		}
 		keySet=true;
 		
-			
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		
+		if ((e.getKeyCode() == KeyEvent.VK_DOWN) || (e.getKeyCode() == KeyEvent.VK_UP) || (e.getKeyCode() == KeyEvent.VK_RIGHT)|| (e.getKeyCode() == KeyEvent.VK_LEFT)){
 		
 		try {
 			SocketSender.sendCommand("4");
@@ -75,6 +75,8 @@ public class KeyListen implements KeyListener{
 			e1.printStackTrace();
 		}
 		keySet = false;
+		
+		}
 	}
 
 	@Override

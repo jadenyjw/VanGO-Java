@@ -22,7 +22,7 @@ public static DataOutputStream dout;
 		dout = new DataOutputStream(soc.getOutputStream());  
 		dout.writeBytes(command);
 	    dout.flush();
-	    //dout.close();  
+	    
 		
 	}
 	
