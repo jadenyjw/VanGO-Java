@@ -1,14 +1,22 @@
 package swing;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 
-import network.SocketSender;
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import com.clarifai.api.ClarifaiClient;
@@ -16,24 +24,9 @@ import com.clarifai.api.RecognitionRequest;
 import com.clarifai.api.RecognitionResult;
 import com.clarifai.api.Tag;
 
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.imageio.ImageIO;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.List;
-import java.awt.event.ActionEvent;
-
+import network.SocketSender;
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
-
-
-import javax.swing.JList;
-import java.awt.BorderLayout;
 
 public class MainWindow {
 
@@ -115,14 +108,16 @@ public class MainWindow {
 			public void actionPerformed(ActionEvent arg0) {
 
 				takeSnapShot(mediaPlayerComponent);
-
+				File file = new File("clarifai.jpg");
 				ClarifaiClient clarifai = new ClarifaiClient("Wt6QO1me3Idz7ucdO3Dw_We4QTXWbvBzvWre6O_p",
 						"N5GD23xeygB98B7Dnpsq2qkXaP0fyZa2ruqU2lV5");
-				List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(new File("clarifai.jpg")));
+				List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(file));
 				listModel.clear();
 				for (Tag tag : results.get(0).getTags()) {
 					listModel.addElement(tag.getName());
 				}
+				
+				file.delete();
 				
 			}
 		});
@@ -144,7 +139,7 @@ public class MainWindow {
 				boolean found = new NativeDiscovery().discover();
 				mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 				vidPanel.add(mediaPlayerComponent);
-				mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://mpv.cdn3.bigCDN.com:554/bigCDN/definst/mp4:bigbuckbunnyiphone_400.mp4");
+				mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/vango");
 				
 				connSuccess = true;
 
