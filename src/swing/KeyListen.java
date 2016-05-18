@@ -18,20 +18,23 @@ public class KeyListen implements KeyListener{
 		switch (keyCode){
 		
 		case KeyEvent.VK_UP:
-			System.out.println(e.getKeyCode());
+			
 			break;
 		case KeyEvent.VK_DOWN:
-			System.out.println(e.getKeyCode());
+			
 			break;
 		case KeyEvent.VK_LEFT:
-			System.out.println(e.getKeyCode());
+			
 			break;
 		case KeyEvent.VK_RIGHT:
-			System.out.println(e.getKeyCode());
+			
 			break;
 		case KeyEvent.VK_PAGE_UP:
+			
 			break;
+			
 		case KeyEvent.VK_PAGE_DOWN:
+			
 			break;
 		
 

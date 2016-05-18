@@ -88,10 +88,18 @@ public class MainWindow {
 		});
 		btnNewButton.setBounds(810, 567, 188, 23);
 		frmVanGo.getContentPane().add(btnNewButton);
-		boolean connected = false;
-		while (connected == false){
-			String ip = JOptionPane.showInputDialog(frmVanGo, "What's the IP of the Van Go bot?");
-		    
+
+		String ip = JOptionPane.showInputDialog(frmVanGo, "What's the IP of the Van Go bot?");
+		
+		boolean connSuccess = false;
+		while (connSuccess==false){
+		try{      
+			SocketSender.establishConn(ip);
+			connSuccess = true;
+		}catch(Exception e){
+			JOptionPane.showMessageDialog(null, "The connection failed. Please try again.");
+			ip = JOptionPane.showInputDialog(frmVanGo, "What's the IP of the Van Go bot?");
+		}  
 		}
 		
 	}
