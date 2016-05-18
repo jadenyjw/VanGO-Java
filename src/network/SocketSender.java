@@ -13,16 +13,21 @@ public static DataOutputStream dout;
 
 	public static void establishConn(String ip) throws UnknownHostException, IOException{
 		
-			soc= new Socket(ip, 8554);  
-		    dout=new DataOutputStream(soc.getOutputStream());  
-		    soc.close();
+		soc= new Socket(ip, 8888);
 	}  
 		
-	public static void sendCommand(String command){
+	public static void sendCommand(String command) throws IOException{
 		
 		
+		dout = new DataOutputStream(soc.getOutputStream());  
+		dout.writeBytes(command);
+	    dout.flush();
+	    //dout.close();  
 		
-		
+	}
+	
+	public static void closeConn() throws IOException{
+		soc.close();
 	}
 	
 	

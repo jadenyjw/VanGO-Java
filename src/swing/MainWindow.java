@@ -2,22 +2,39 @@ package swing;
 
 import java.awt.EventQueue;
 import network.SocketSender;
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
+import com.clarifai.api.ClarifaiClient;
+import com.clarifai.api.RecognitionRequest;
+import com.clarifai.api.RecognitionResult;
+import com.clarifai.api.Tag;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.border.BevelBorder;
+
+
+import uk.co.caprica.vlcj.discovery.NativeDiscovery;
+import javax.swing.JList;
 
 public class MainWindow {
-
+ 
 	private JFrame frmVanGo;
-    
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -31,9 +48,7 @@ public class MainWindow {
 					e.printStackTrace();
 				}
 			}
-		});
-		
-		
+		});	
 	}
 
 	/**
@@ -59,7 +74,7 @@ public class MainWindow {
 		frmVanGo.setFocusable(true);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBorder(new LineBorder(Color.GRAY));
 		panel.setBounds(0, 0, 800, 600);
 		frmVanGo.getContentPane().add(panel);
 		
@@ -76,31 +91,83 @@ public class MainWindow {
 		lblCameraTiltOp.setBounds(810, 61, 188, 14);
 		frmVanGo.getContentPane().add(lblCameraTiltOp);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_1.setBounds(810, 86, 188, 470);
-		frmVanGo.getContentPane().add(panel_1);
-		
 		JButton btnNewButton = new JButton("Identify Image");
+		
+		DefaultListModel listModel;
+		listModel = new DefaultListModel();
+		
+		JList list = new JList(listModel);
+		list.setBounds(810, 86, 188, 470);
+		frmVanGo.getContentPane().add(list);
+		
+		
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				takeSnapShot(panel);
+			       
+				ClarifaiClient clarifai = new ClarifaiClient("Wt6QO1me3Idz7ucdO3Dw_We4QTXWbvBzvWre6O_p", "N5GD23xeygB98B7Dnpsq2qkXaP0fyZa2ruqU2lV5");
+				List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(new File("clarifai.jpg")));
+				listModel.clear();
+				for (Tag tag : results.get(0).getTags()) {
+				  listModel.addElement(tag.getName() + ": " + tag.getProbability());
+				}
 			}
 		});
 		btnNewButton.setBounds(810, 567, 188, 23);
 		frmVanGo.getContentPane().add(btnNewButton);
-
-		String ip = JOptionPane.showInputDialog(frmVanGo, "What's the IP of the Van Go bot?");
+		
+		
+		
+		
+        
+		
+		
+		String ip;
 		
 		boolean connSuccess = false;
-		while (connSuccess==false){
-		try{      
-			SocketSender.establishConn(ip);
-			connSuccess = true;
-		}catch(Exception e){
-			JOptionPane.showMessageDialog(null, "The connection failed. Please try again.");
-			ip = JOptionPane.showInputDialog(frmVanGo, "What's the IP of the Van Go bot?");
-		}  
-		}
 		
+		do {
+		ip = JOptionPane.showInputDialog(frmVanGo, "What's the IP of the Van Go bot?");
+		if (ip == null){
+			System.exit(0);
+		}
+		try{
+			
+			SocketSender.establishConn(ip);
+			initVLC(panel, ip);
+			connSuccess = true;
+			
+		}catch(Exception e){
+			
+			JOptionPane.showMessageDialog(null, "The connection failed. Please try again.");
+			e.printStackTrace();
+		}  
+		}while(connSuccess==false);
+			
+	}
+	
+	public static void initVLC(JPanel panel, String ip){
+		
+		boolean found = new NativeDiscovery().discover();
+		EmbeddedMediaPlayerComponent mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+		panel.add(mediaPlayerComponent);
+		mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/vango");
+		
+	}
+	public static void takeSnapShot(JPanel panel ){
+		
+	       BufferedImage bufImage = new BufferedImage(panel.getSize().width, panel.getSize().height,BufferedImage.TYPE_INT_RGB);
+	       panel.paint(bufImage.createGraphics());
+	       File imageFile = new File("clarifai.jpg");
+	       
+	    try{
+	        imageFile.createNewFile();
+	        ImageIO.write(bufImage, "jpeg", imageFile);
+	        
+	    }catch(Exception ex){
+	    	ex.printStackTrace();
+	    }
 	}
 }
