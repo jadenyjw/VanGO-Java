@@ -117,13 +117,7 @@ public class MainWindow {
 		});
 		btnNewButton.setBounds(810, 567, 188, 23);
 		frmVanGo.getContentPane().add(btnNewButton);
-		
-		
-		
-		
-        
-		
-		
+
 		String ip;
 		
 		boolean connSuccess = false;

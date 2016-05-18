@@ -3,9 +3,6 @@ package network;
 import java.io.*;
 import java.net.*;
 
-
-
-
 public class SocketSender {
 	
 public static Socket soc;
@@ -22,16 +19,13 @@ public static DataOutputStream dout;
 		dout = new DataOutputStream(soc.getOutputStream());  
 		dout.writeBytes(command);
 	    dout.flush();
-	    
-		
+	
 	}
 	
 	public static void closeConn() throws IOException{
 		soc.close();
 	}
-	
-	
-	
+		
 }
 
 

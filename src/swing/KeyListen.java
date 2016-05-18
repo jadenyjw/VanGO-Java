@@ -57,7 +57,6 @@ public class KeyListen implements KeyListener{
 				}
 				break;
 				
-		
 		}
 		keySet=true;
 		
