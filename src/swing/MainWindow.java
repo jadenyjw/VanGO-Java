@@ -31,6 +31,7 @@ import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
 
 import javax.swing.JList;
+import java.awt.BorderLayout;
 
 public class MainWindow {
 
@@ -76,10 +77,11 @@ public class MainWindow {
 		frmVanGo.addKeyListener(newListener);
 		frmVanGo.setFocusable(true);
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(Color.GRAY));
-		panel.setBounds(0, 0, 800, 600);
-		frmVanGo.getContentPane().add(panel);
+		vidPanel = new JPanel();
+		vidPanel.setBorder(new LineBorder(Color.GRAY));
+		vidPanel.setBounds(0, 0, 800, 600);
+		frmVanGo.getContentPane().add(vidPanel);
+		vidPanel.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblControls = new JLabel("Controls");
 		lblControls.setHorizontalAlignment(SwingConstants.CENTER);
@@ -110,7 +112,7 @@ public class MainWindow {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				takeSnapShot(panel);
+				takeSnapShot(vidPanel);
 
 				ClarifaiClient clarifai = new ClarifaiClient("Wt6QO1me3Idz7ucdO3Dw_We4QTXWbvBzvWre6O_p",
 						"N5GD23xeygB98B7Dnpsq2qkXaP0fyZa2ruqU2lV5");
@@ -136,7 +138,11 @@ public class MainWindow {
 			try {
 
 				SocketSender.establishConn(ip);
-				initVLC(panel, ip);
+				boolean found = new NativeDiscovery().discover();
+				EmbeddedMediaPlayerComponent mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+				vidPanel.add(mediaPlayerComponent);
+				mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/vango");
+				
 				connSuccess = true;
 
 			} catch (Exception e) {
@@ -150,10 +156,7 @@ public class MainWindow {
 
 	public static void initVLC(JPanel panel, String ip) {
 
-		boolean found = new NativeDiscovery().discover();
-		EmbeddedMediaPlayerComponent mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
-		panel.add(mediaPlayerComponent);
-		mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/vango");
+		
 
 	}
 
