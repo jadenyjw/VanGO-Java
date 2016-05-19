@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
@@ -68,10 +69,12 @@ public class MainWindow {
 		frmVanGo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmVanGo.getContentPane().setLayout(null);
 		frmVanGo.setVisible(true);
-		KeyListen newListener = new KeyListen();
-		frmVanGo.addKeyListener(newListener);
-		frmVanGo.setFocusable(true);
+		
+		//KeyListen newListener = new KeyListen();
+		//frmVanGo.addKeyListener(newListener);
 
+		
+		
 		vidPanel = new JPanel();
 		vidPanel.setBorder(new LineBorder(Color.GRAY));
 		vidPanel.setBounds(0, 0, 800, 600);
@@ -92,6 +95,7 @@ public class MainWindow {
 		frmVanGo.getContentPane().add(lblCameraTiltOp);
 
 		JButton btnNewButton = new JButton("Identify Image");
+		btnNewButton.setFocusable(false);
 
 		DefaultListModel<String> listModel;
 		listModel = new DefaultListModel<String>();
@@ -136,11 +140,6 @@ public class MainWindow {
 			try {
 
 				SocketSender.establishConn(ip);
-				boolean found = new NativeDiscovery().discover();
-				mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
-				vidPanel.add(mediaPlayerComponent);
-				mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/vango");
-				
 				connSuccess = true;
 
 			} catch (Exception e) {
@@ -149,7 +148,13 @@ public class MainWindow {
 				e.printStackTrace();
 			}
 		} while (connSuccess == false);
-
+		
+		boolean found = new NativeDiscovery().discover();
+		mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+		
+		vidPanel.add(mediaPlayerComponent);
+		mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/test.mp4");
+		
 	}
 
 
