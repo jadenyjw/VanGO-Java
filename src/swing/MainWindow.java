@@ -120,6 +120,8 @@ public class MainWindow {
 				File file = new File("clarifai.jpg");
 				ClarifaiClient clarifai = new ClarifaiClient("Wt6QO1me3Idz7ucdO3Dw_We4QTXWbvBzvWre6O_p",
 						"N5GD23xeygB98B7Dnpsq2qkXaP0fyZa2ruqU2lV5");
+				//Free @p1 Key, doesn't need to be obfuscated as of now.
+				
 				List<RecognitionResult> results = clarifai.recognize(new RecognitionRequest(file));
 				listModel.clear();
 				for (Tag tag : results.get(0).getTags()) {
