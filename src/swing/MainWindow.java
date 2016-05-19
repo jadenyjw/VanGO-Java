@@ -6,10 +6,14 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -34,6 +38,7 @@ public class MainWindow {
 	private JFrame frmVanGo;
 	private JPanel vidPanel;
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
+	private Boolean keySet;
 	
 	/**
 	 * Launch the application.
@@ -56,6 +61,7 @@ public class MainWindow {
 	 */
 	public MainWindow() {
 		initialize();
+		
 	}
 
 	/**
@@ -70,11 +76,10 @@ public class MainWindow {
 		frmVanGo.getContentPane().setLayout(null);
 		frmVanGo.setVisible(true);
 		
-		//KeyListen newListener = new KeyListen();
-		//frmVanGo.addKeyListener(newListener);
-
+		frmVanGo.setFocusable(true);
 		
-		
+	    registerBindings();
+	    
 		vidPanel = new JPanel();
 		vidPanel.setBorder(new LineBorder(Color.GRAY));
 		vidPanel.setBounds(0, 0, 800, 600);
@@ -154,7 +159,7 @@ public class MainWindow {
 		
 		vidPanel.add(mediaPlayerComponent);
 		mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/test.mp4");
-		
+	    
 	}
 
 
@@ -170,4 +175,157 @@ public class MainWindow {
 
 		
 	}
+	
+	private void registerBindings(){
+		
+		keySet = false;
+		Action right = new AbstractAction() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+		    	if (keySet == false){
+		    		try {
+						SocketSender.sendCommand("2");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+		    		keySet = true;
+		    	}
+		        
+		    }
+		};
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "right");
+		frmVanGo.getRootPane().getActionMap().put("right", right);
+		
+		Action left = new AbstractAction() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+		    	if (keySet == false){
+		    		try {
+						SocketSender.sendCommand("3");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+		    		keySet = true;
+		    	}
+		    }
+		};
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "left");
+		frmVanGo.getRootPane().getActionMap().put("left", left);
+		
+		Action down = new AbstractAction() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+		    	if (keySet == false){
+		    		try {
+						SocketSender.sendCommand("0");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+		    		keySet = true;
+		    	}
+		    }
+		};
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "down");
+		frmVanGo.getRootPane().getActionMap().put("down", down);
+		
+		Action up = new AbstractAction() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+		    	if (keySet == false){
+		    		try {
+						SocketSender.sendCommand("1");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+		    		keySet = true;
+		    	}
+		    }
+		};
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"), "up");
+		frmVanGo.getRootPane().getActionMap().put("up", up);
+		
+		Action camUp = new AbstractAction() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+		    	if (keySet == false){
+		    		try {
+						SocketSender.sendCommand("5");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+		    		keySet = true;
+		    	}
+		    }
+		};
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("PAGE_UP"), "camUp");
+		frmVanGo.getRootPane().getActionMap().put("camUp", camUp);
+		
+		Action camDown = new AbstractAction() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+		    	if (keySet == false){
+		    		try {
+						SocketSender.sendCommand("6");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+		    		keySet = true;
+		    	}
+		    }
+		};
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("PAGE_DOWN"), "camDown");
+		frmVanGo.getRootPane().getActionMap().put("camDown", camDown);
+		
+		Action stop = new AbstractAction() {
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+		    	try {
+					SocketSender.sendCommand("4");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+		        keySet = false;
+		    }
+		};
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released RIGHT"), "stop");
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released LEFT"), "stop");
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released UP"), "stop");
+		frmVanGo.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released DOWN"), "stop");
+		
+		
+		
+		frmVanGo.getRootPane().getActionMap().put("stop", stop);
+		
+		
+	}
+	                                         
+	
 }

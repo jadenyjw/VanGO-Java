@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>VanGoJava</groupId>
   <artifactId>VanGoJava</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -39,4 +39,5 @@
   		<version>1.7.21</version>
   	</dependency>
   </dependencies>
+  <packaging>pom</packaging>
 </project>
