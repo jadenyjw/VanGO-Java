@@ -160,7 +160,7 @@ public class MainWindow {
 		mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 		
 		vidPanel.add(mediaPlayerComponent);
-		mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/test.mp4");
+		mediaPlayerComponent.getMediaPlayer().playMedia("rtsp://" + ip + ":8554/vango.mp4");
 	    
 	}
 
